@@ -55,58 +55,124 @@ namespace RenomeadorDeArquivos
             return dataTable;
         }
 
+        private void CarregaComboBox()
+        {
+            try
+            {
+                comboBoxNomeAtual.Items.Clear();
+                comboBoxNomeNovo.Items.Clear();
+                string[] nomeColunas = planilha.Columns.OfType<DataColumn>().Select(x => x.ColumnName).ToArray();
+
+                comboBoxNomeAtual.Items.AddRange(nomeColunas);
+                comboBoxNomeNovo.Items.AddRange(nomeColunas);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message);
+            }
+        }
+
+        private string CalcularSha1 (string stringOriginal)
+        {
+            SHA1 sha1 = new SHA1CryptoServiceProvider();
+            StringBuilder gerarString = new StringBuilder();
+
+            byte[] buffer = Encoding.Default.GetBytes(stringOriginal);
+            buffer = sha1.ComputeHash(buffer);
+            foreach (byte item in buffer)
+            {
+                gerarString.Append(item.ToString("x2"));
+            }
+            return(gerarString.ToString().ToUpper());
+        }
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
-        {
-
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
-            openFileDialog1.ShowDialog();
-            foreach (string caminho in openFileDialog1.FileNames)
+            textBox1.Clear();
+            imagens.Clear();
+            OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                textBox1.AppendText(caminho + "\n");
-                imagens.Add(caminho);
+                Filter = "Arquivos de Imagem (*.jpg)|*.jpg",
+                Multiselect = true
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                foreach (string caminho in openFileDialog.FileNames)
+                {
+                    textBox1.AppendText(caminho + "\n");
+                    imagens.Add(caminho);
+                }
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog2 = new OpenFileDialog();
-            openFileDialog2.Filter = "Planilhas Excel|*.xlsx;*.xls";
-            openFileDialog2.Multiselect = false;
-            
-            if (openFileDialog2.ShowDialog() == DialogResult.OK)
+            OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                textBox2.Text = openFileDialog2.FileName.ToString();         
-                planilha = GetTabelaExcel(openFileDialog2.FileName.ToString());
+                Filter = "Planilhas Excel|*.xlsx;*.xls",
+                Multiselect = false
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                textBox2.Text = openFileDialog.FileName.ToString();         
+                planilha = GetTabelaExcel(openFileDialog.FileName.ToString());
                 dataGridView1.DataSource = planilha;
+                CarregaComboBox();
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            foreach (String img in imagens)
+            try
             {
-                string nomeDaImagem = System.IO.Path.GetFileName(img);
-                foreach (DataRow row in planilha.Rows)
+                int contCopiados = 0;
+                int contDuplicados = 0;
+                int contNomesNaoEncontrado = 0;
+                foreach (String img in imagens)
                 {
-                    if (row[2].ToString() == nomeDaImagem)
+                    string nomeDaImagem = System.IO.Path.GetFileName(img);
+                    foreach (DataRow row in planilha.Rows)
                     {
-                        //SHA1 sha = new SHA1CryptoServiceProvider();
-                        //string NomeEmSha = sha.(row[1].ToString());
-                        MessageBox.Show("Encontrado: " + nomeDaImagem);
-                        System.IO.File.Copy(img, @"E:\Projetos\C#\RenomeadorDeArquivos\Arquivos para testes\exportacao\\" + row[1].ToString() + ".jpg");
-                    }
+                        if (row[comboBoxNomeAtual.SelectedIndex].ToString() == nomeDaImagem)
+                        {
+                            string novoNomeImagem = row[comboBoxNomeNovo.SelectedIndex].ToString();
+                            if (checkBoxSha1.Checked)
+                                novoNomeImagem = CalcularSha1(novoNomeImagem);
+                            if (System.IO.File.Exists(@"E:\Projetos\C#\RenomeadorDeArquivos\Arquivos para testes\exportacao\\" + novoNomeImagem + ".jpg"))
+                                contDuplicados++;
+                            else
+                            {
+                                System.IO.File.Copy(img, @"E:\Projetos\C#\RenomeadorDeArquivos\Arquivos para testes\exportacao\\" + novoNomeImagem + ".jpg");
+                                contCopiados++;
+                            }
 
+                        }
+                    }
                 }
+                contNomesNaoEncontrado = imagens.Count() - (contCopiados + contDuplicados);
+                MessageBox.Show
+                    (
+                        "Processamento concluido\n\n" + 
+                        contCopiados.ToString() + " Arquivos processados com sucesso\n" +
+                        contDuplicados.ToString() + " Arquivos duplicados e não processados\n"+
+                        contNomesNaoEncontrado.ToString() + " Arquivos sem nomes correspondentes e não processados"
+                    );
             }
-            
+            catch (System.IndexOutOfRangeException ex)
+            {
+                MessageBox.Show("É obrigatório selecinar as colunas que contêm os nomes atuais e novos.\n" + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro ao processar\nErro: " + ex.Message);
+            }     
         }
 
         private  void Form1_Load(object sender, EventArgs e)
