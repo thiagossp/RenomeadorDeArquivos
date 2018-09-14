@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.btnSelecionarImagens = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnSelecionarPlanilha = new System.Windows.Forms.Button();
@@ -39,112 +40,87 @@
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxNomeAtual = new System.Windows.Forms.ComboBox();
             this.comboBoxNomeNovo = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSelecionarImagens
             // 
-            this.btnSelecionarImagens.Location = new System.Drawing.Point(12, 12);
+            resources.ApplyResources(this.btnSelecionarImagens, "btnSelecionarImagens");
             this.btnSelecionarImagens.Name = "btnSelecionarImagens";
-            this.btnSelecionarImagens.Size = new System.Drawing.Size(75, 23);
-            this.btnSelecionarImagens.TabIndex = 0;
-            this.btnSelecionarImagens.Text = "Imagens";
             this.btnSelecionarImagens.UseVisualStyleBackColor = true;
-            this.btnSelecionarImagens.Click += new System.EventHandler(this.button1_Click);
+            this.btnSelecionarImagens.Click += new System.EventHandler(this.BtnSelecionarImagens_Click);
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 41);
-            this.textBox1.Multiline = true;
+            resources.ApplyResources(this.textBox1, "textBox1");
             this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox1.Size = new System.Drawing.Size(556, 94);
-            this.textBox1.TabIndex = 1;
             // 
             // btnSelecionarPlanilha
             // 
-            this.btnSelecionarPlanilha.Location = new System.Drawing.Point(12, 140);
+            resources.ApplyResources(this.btnSelecionarPlanilha, "btnSelecionarPlanilha");
             this.btnSelecionarPlanilha.Name = "btnSelecionarPlanilha";
-            this.btnSelecionarPlanilha.Size = new System.Drawing.Size(75, 23);
-            this.btnSelecionarPlanilha.TabIndex = 2;
-            this.btnSelecionarPlanilha.Text = "Planilha";
             this.btnSelecionarPlanilha.UseVisualStyleBackColor = true;
             this.btnSelecionarPlanilha.Click += new System.EventHandler(this.button2_Click);
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(12, 169);
+            resources.ApplyResources(this.textBox2, "textBox2");
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(556, 20);
-            this.textBox2.TabIndex = 3;
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 195);
+            resources.ApplyResources(this.dataGridView1, "dataGridView1");
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(556, 150);
-            this.dataGridView1.TabIndex = 4;
             // 
             // btnProcessar
             // 
-            this.btnProcessar.Location = new System.Drawing.Point(12, 458);
+            resources.ApplyResources(this.btnProcessar, "btnProcessar");
             this.btnProcessar.Name = "btnProcessar";
-            this.btnProcessar.Size = new System.Drawing.Size(75, 23);
-            this.btnProcessar.TabIndex = 5;
-            this.btnProcessar.Text = "Processar";
             this.btnProcessar.UseVisualStyleBackColor = true;
-            this.btnProcessar.Click += new System.EventHandler(this.button3_Click);
+            this.btnProcessar.Click += new System.EventHandler(this.BtnProcessar_Click);
             // 
             // checkBoxSha1
             // 
-            this.checkBoxSha1.AutoSize = true;
-            this.checkBoxSha1.Location = new System.Drawing.Point(12, 423);
+            resources.ApplyResources(this.checkBoxSha1, "checkBoxSha1");
             this.checkBoxSha1.Name = "checkBoxSha1";
-            this.checkBoxSha1.Size = new System.Drawing.Size(213, 17);
-            this.checkBoxSha1.TabIndex = 6;
-            this.checkBoxSha1.Text = "Criptografar nomes das imagens (SHA1)";
             this.checkBoxSha1.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 354);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(208, 13);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Coluna contendo o nome atual do arquivo:";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 382);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(215, 13);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "Conluna contendo o novo nome do arquivo:";
             // 
             // comboBoxNomeAtual
             // 
             this.comboBoxNomeAtual.FormattingEnabled = true;
-            this.comboBoxNomeAtual.Location = new System.Drawing.Point(237, 351);
+            resources.ApplyResources(this.comboBoxNomeAtual, "comboBoxNomeAtual");
             this.comboBoxNomeAtual.Name = "comboBoxNomeAtual";
-            this.comboBoxNomeAtual.Size = new System.Drawing.Size(136, 21);
-            this.comboBoxNomeAtual.TabIndex = 9;
             // 
             // comboBoxNomeNovo
             // 
             this.comboBoxNomeNovo.FormattingEnabled = true;
-            this.comboBoxNomeNovo.Location = new System.Drawing.Point(237, 379);
+            resources.ApplyResources(this.comboBoxNomeNovo, "comboBoxNomeNovo");
             this.comboBoxNomeNovo.Name = "comboBoxNomeNovo";
-            this.comboBoxNomeNovo.Size = new System.Drawing.Size(136, 21);
-            this.comboBoxNomeNovo.TabIndex = 10;
+            // 
+            // button1
+            // 
+            resources.ApplyResources(this.button1, "button1");
+            this.button1.Name = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(586, 487);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBoxNomeNovo);
             this.Controls.Add(this.comboBoxNomeAtual);
             this.Controls.Add(this.label2);
@@ -156,8 +132,9 @@
             this.Controls.Add(this.btnSelecionarPlanilha);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.btnSelecionarImagens);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
@@ -177,6 +154,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBoxNomeAtual;
         private System.Windows.Forms.ComboBox comboBoxNomeNovo;
+        private System.Windows.Forms.Button button1;
     }
 }
 

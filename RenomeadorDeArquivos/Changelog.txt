@@ -1,0 +1,16 @@
+﻿# Changelog
+
+## [0.1.0] - 14/09/2018
+### Não publicado
+- Função para converter imagens *.TIF em JPG.
+- Função para otimizar as imagens *TIF convertidas.
+
+### Adicionado
+- Esse CHANGELOG para controle das alterações realizadas no sistema.
+- Controle de exceções ao processar imagens (quando nenhuma imagem e/ou planilha é selecionada).
+- Caixa de diálogo ao clicar em "Processar" para escolher o diretório onde será salvo as imagens.
+- Exibição automática do diretório de destino após o processamento.
+
+### Alterado
+- Configurações de redimencionamento do formulário.
+- Icone do sitema.

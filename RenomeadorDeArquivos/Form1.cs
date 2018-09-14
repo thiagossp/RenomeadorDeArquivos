@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.Data.OleDb;
 using System.Security.Cryptography;
+using System.Drawing.Imaging;
+using Encoder = System.Drawing.Imaging.Encoder;
 
 namespace RenomeadorDeArquivos
 {
@@ -86,18 +88,73 @@ namespace RenomeadorDeArquivos
             return(gerarString.ToString().ToUpper());
         }
 
+        private void ConverterTiffEmJpeg()
+        {
+            try
+            {
+                foreach (string img in imagens)
+                {
+                    using (Image imagem = Image.FromFile(img))
+                    {
+                        FrameDimension frameDimension = new FrameDimension(imagem.FrameDimensionsList[0]);
+
+                        int frameNum = imagem.GetFrameCount(frameDimension);
+                        string[] jpegPaths = new string[frameNum];
+
+                        for (int frame = 0; frame < frameNum; frame++)
+                        {
+                            imagem.SelectActiveFrame(frameDimension, frame);
+                            using (Bitmap bmp = new Bitmap(imagem, new Size(744,1052)))
+                            {
+                                jpegPaths[frame] = String.Format("{0}\\{1}{2}.jpg",
+                                    Path.GetDirectoryName(img),
+                                    Path.GetFileNameWithoutExtension(img),
+                                    frame);
+
+                                ImageCodecInfo jpgEncoder = GetEncoderInfo("image/jpeg");
+
+                                Encoder encoder = Encoder.Quality;
+                                EncoderParameters encoderParameters = new EncoderParameters(1);
+                                EncoderParameter encoderParameter = new EncoderParameter(encoder, 20L);
+                                encoderParameters.Param[0] = encoderParameter;
+                                bmp.Save(jpegPaths[frame], jpgEncoder, encoderParameters);
+                            }
+                        }
+                    }
+                }
+                
+            }
+            catch
+            {
+
+            }
+        }
+
+        private static ImageCodecInfo GetEncoderInfo(String mimeType)
+        {
+            int j;
+            ImageCodecInfo[] encoders;
+            encoders = ImageCodecInfo.GetImageEncoders();
+            for (j = 0; j < encoders.Length; ++j)
+            {
+                if (encoders[j].MimeType == mimeType)
+                    return encoders[j];
+            }
+            return null;
+        }
+
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void BtnSelecionarImagens_Click(object sender, EventArgs e)
         {
             textBox1.Clear();
             imagens.Clear();
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Arquivos de Imagem (*.jpg)|*.jpg",
+                Filter = "Arquivos de Imagem|*.jpg; *.tif",
                 Multiselect = true
             };
 
@@ -128,14 +185,28 @@ namespace RenomeadorDeArquivos
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void BtnProcessar_Click(object sender, EventArgs e)
         {
             try
             {
+                if (imagens.Count() == 0)
+                {
+                    throw new System.ArgumentException("Nenhuma imagem foi selecionada");
+                }
+                if (textBox2.Text ==  "")
+                {
+                    throw new System.ArgumentException("Nenhuma planilha foi selecionada");
+                }
+
                 int contCopiados = 0;
                 int contDuplicados = 0;
                 int contNomesNaoEncontrado = 0;
-                foreach (String img in imagens)
+
+                FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+                if (folderBrowserDialog.ShowDialog() != DialogResult.OK)
+                    throw new System.ArgumentException("Erro ao selecionar a pasta de destino");
+
+                foreach (string img in imagens)
                 {
                     string nomeDaImagem = System.IO.Path.GetFileName(img);
                     foreach (DataRow row in planilha.Rows)
@@ -145,11 +216,14 @@ namespace RenomeadorDeArquivos
                             string novoNomeImagem = row[comboBoxNomeNovo.SelectedIndex].ToString();
                             if (checkBoxSha1.Checked)
                                 novoNomeImagem = CalcularSha1(novoNomeImagem);
-                            if (System.IO.File.Exists(@"E:\Projetos\C#\RenomeadorDeArquivos\Arquivos para testes\exportacao\\" + novoNomeImagem + ".jpg"))
+                            if (System.IO.File.Exists(folderBrowserDialog.SelectedPath + "\\" + novoNomeImagem + ".jpg"))
                                 contDuplicados++;
                             else
                             {
-                                System.IO.File.Copy(img, @"E:\Projetos\C#\RenomeadorDeArquivos\Arquivos para testes\exportacao\\" + novoNomeImagem + ".jpg");
+                                if (Path.GetExtension(img) == ".tif")
+                                    MessageBox.Show("Imagem TIF encontrada");
+                                else
+                                    System.IO.File.Copy(img, folderBrowserDialog.SelectedPath + "\\" + novoNomeImagem + Path.GetExtension(img));
                                 contCopiados++;
                             }
 
@@ -164,6 +238,7 @@ namespace RenomeadorDeArquivos
                         contDuplicados.ToString() + " Arquivos duplicados e não processados\n"+
                         contNomesNaoEncontrado.ToString() + " Arquivos sem nomes correspondentes e não processados"
                     );
+                System.Diagnostics.Process.Start("explorer.exe", folderBrowserDialog.SelectedPath);
             }
             catch (System.IndexOutOfRangeException ex)
             {
@@ -178,6 +253,11 @@ namespace RenomeadorDeArquivos
         private  void Form1_Load(object sender, EventArgs e)
         {
             
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ConverterTiffEmJpeg();
         }
     }
 }
