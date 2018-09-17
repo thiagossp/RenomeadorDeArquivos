@@ -39,7 +39,7 @@ namespace RenomeadorDeArquivos
                 if (dataRow.Count() == 1)
                 {
                     if (crypto)
-                        image.Name = security.StringToSha1(dataRow[newReferenceName].ToString());
+                        image.Name = security.StringToSha1(dataRow[0][newReferenceName].ToString());
                     else
                     {
                         image.Name = dataRow[0][newReferenceName].ToString();
@@ -81,7 +81,7 @@ namespace RenomeadorDeArquivos
 
                     Encoder encoder = Encoder.Quality;
                     EncoderParameters encoderParameters = new EncoderParameters(1);
-                    EncoderParameter encoderParameter = new EncoderParameter(encoder, 20L);
+                    EncoderParameter encoderParameter = new EncoderParameter(encoder, 25L);
                     encoderParameters.Param[0] = encoderParameter;
                     bmp.Save(folderPatch, jpgEncoder, encoderParameters);
                 }

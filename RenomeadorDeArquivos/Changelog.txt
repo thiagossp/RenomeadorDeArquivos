@@ -1,7 +1,16 @@
 ﻿# Changelog
 
+## [0.2.1] - 17/09/2018
+### Modificado
+- Renomeação: textBox1 -> textBoxImages.
+- Renomeação: button2_Click -> btnSelecionarPlanilha_Click.
+- Layout geral do formulário.
+- Aumento da qualidade dos arquivos JPEG da função de otimização.
+### Corrigido
+- Contador de paginas de arquivos TIFF.
+- Erro de indice ao ativar a criptografia do nome de arquivo.
+
 ## [0.2.0] - 16/09/2018
-### Não publicado
 ### Adicionado
 - Criação da classe Images.cs.
 - Criação da classe Security.cs.

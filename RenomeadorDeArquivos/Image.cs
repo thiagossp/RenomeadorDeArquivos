@@ -21,14 +21,15 @@ namespace RenomeadorDeArquivos
             this.Name = System.IO.Path.GetFileNameWithoutExtension(patch);
             this.Extension = System.IO.Path.GetExtension(patch);
             this.Optimize = optimize;
+            this.Pages = PageCounter();
         }
 
-        private void PageCounter ()
+        private int PageCounter ()
         {
             using (System.Drawing.Image img = System.Drawing.Image.FromFile(this.FullPatch))
             {
                 FrameDimension frameDimension = new FrameDimension(img.FrameDimensionsList[0]);
-                this.Pages = img.GetFrameCount(frameDimension);                
+                return img.GetFrameCount(frameDimension);                
             }
         }
     }
