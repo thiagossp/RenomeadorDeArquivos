@@ -1,16 +1,34 @@
 ﻿# Changelog
 
+## [0.2.0] - 16/09/2018
+### Não publicado
+### Adicionado
+- Criação da classe Images.cs.
+- Criação da classe Security.cs.
+- Conversão automática de imagens TIFF (com apenas uma página) para JPEG.
+- Opção de otimizão automática das imagens processadas.
+### Modificado
+- Renomeação da classe Tabela.cs para ExcelTable.cs.
+
 ## [0.1.0] - 14/09/2018
 ### Não publicado
 - Função para converter imagens *.TIF em JPG.
 - Função para otimizar as imagens *TIF convertidas.
-
 ### Adicionado
 - Esse CHANGELOG para controle das alterações realizadas no sistema.
 - Controle de exceções ao processar imagens (quando nenhuma imagem e/ou planilha é selecionada).
 - Caixa de diálogo ao clicar em "Processar" para escolher o diretório onde será salvo as imagens.
 - Exibição automática do diretório de destino após o processamento.
-
-### Alterado
+### Modificado
 - Configurações de redimencionamento do formulário.
 - Icone do sitema.
+
+
+## TÓPICOS PADRÕES
+### Não publicado
+### Adicionado
+### Modificado
+### Obsoleto
+### Removido
+### Corrigido
+### Segurança

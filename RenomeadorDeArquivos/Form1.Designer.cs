@@ -40,7 +40,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxNomeAtual = new System.Windows.Forms.ComboBox();
             this.comboBoxNomeNovo = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.checkBoxOptimizeAll = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -109,18 +109,17 @@
             resources.ApplyResources(this.comboBoxNomeNovo, "comboBoxNomeNovo");
             this.comboBoxNomeNovo.Name = "comboBoxNomeNovo";
             // 
-            // button1
+            // checkBoxOptimizeAll
             // 
-            resources.ApplyResources(this.button1, "button1");
-            this.button1.Name = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            resources.ApplyResources(this.checkBoxOptimizeAll, "checkBoxOptimizeAll");
+            this.checkBoxOptimizeAll.Name = "checkBoxOptimizeAll";
+            this.checkBoxOptimizeAll.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.checkBoxOptimizeAll);
             this.Controls.Add(this.comboBoxNomeNovo);
             this.Controls.Add(this.comboBoxNomeAtual);
             this.Controls.Add(this.label2);
@@ -154,7 +153,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBoxNomeAtual;
         private System.Windows.Forms.ComboBox comboBoxNomeNovo;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox checkBoxOptimizeAll;
     }
 }
 

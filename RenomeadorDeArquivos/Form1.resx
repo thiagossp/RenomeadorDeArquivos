@@ -238,7 +238,7 @@
     <value>7</value>
   </data>
   <data name="btnProcessar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 458</value>
+    <value>12, 445</value>
   </data>
   <data name="btnProcessar.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -265,7 +265,7 @@
     <value>True</value>
   </data>
   <data name="checkBoxSha1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 423</value>
+    <value>12, 422</value>
   </data>
   <data name="checkBoxSha1.Size" type="System.Drawing.Size, System.Drawing">
     <value>213, 17</value>
@@ -387,28 +387,31 @@
   <data name="&gt;&gt;comboBoxNomeNovo.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="button1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>94, 458</value>
+  <data name="checkBoxOptimizeAll.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="button1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+  <data name="checkBoxOptimizeAll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>231, 422</value>
   </data>
-  <data name="button1.TabIndex" type="System.Int32, mscorlib">
+  <data name="checkBoxOptimizeAll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 17</value>
+  </data>
+  <data name="checkBoxOptimizeAll.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
-  <data name="button1.Text" xml:space="preserve">
-    <value>button1</value>
+  <data name="checkBoxOptimizeAll.Text" xml:space="preserve">
+    <value>Otimizar todas as imagens</value>
   </data>
-  <data name="&gt;&gt;button1.Name" xml:space="preserve">
-    <value>button1</value>
+  <data name="&gt;&gt;checkBoxOptimizeAll.Name" xml:space="preserve">
+    <value>checkBoxOptimizeAll</value>
   </data>
-  <data name="&gt;&gt;button1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;checkBoxOptimizeAll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;button1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;checkBoxOptimizeAll.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;button1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;checkBoxOptimizeAll.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
