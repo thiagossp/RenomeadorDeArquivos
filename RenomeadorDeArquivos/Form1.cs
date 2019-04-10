@@ -1,23 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Windows.Forms;
 
 namespace RenomeadorDeArquivos
 {
     public partial class Form1 : Form
     {
-        List<string> imagens = new List<string>();
-        Images images;
-        ExcelTable excelTable = new ExcelTable();
+        private List<Image> imageList = new List<Image>();
+        private ExcelTable excelTable = new ExcelTable();
 
         public Form1()
         {
             InitializeComponent();
+            toolStripStatusLabel1.Text = "Pronto";
         }
 
         private void BtnSelecionarImagens_Click(object sender, EventArgs e)
         {
             textBoxImages.Clear();
+            imageList.Clear();
+            toolStripStatusLabel1.Text = "Carregando Imagens...";
+
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 Filter = "Arquivos de Imagem|*.jpg; *.tif",
@@ -26,12 +30,15 @@ namespace RenomeadorDeArquivos
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                images = new Images(openFileDialog.FileNames);
-                
-                foreach (string caminho in openFileDialog.FileNames)
+                toolStripProgressBar1.Value = 0;
+                toolStripProgressBar1.Maximum = openFileDialog.FileNames.Length;
+                foreach (string path in openFileDialog.FileNames)
                 {
-                    textBoxImages.AppendText(caminho + "\n");
+                    imageList.Add(new Image(path));
+                    textBoxImages.AppendText(path + "\n");
+                    toolStripProgressBar1.Value++;
                 }
+                toolStripStatusLabel1.Text = "Pronto";
             }
         }
 
@@ -39,30 +46,41 @@ namespace RenomeadorDeArquivos
         {
             try
             {
-                if (images.ImageList.Count <= 0)
+                if (imageList.Count <= 0)
                 {
                     throw new System.ArgumentException("Nenhuma imagem foi selecionada.");
                 }
-                if (textBox2.Text ==  "")
+                if (textBox2.Text == "")
                 {
                     throw new System.ArgumentException("Nenhuma planilha foi selecionada.");
                 }
 
                 FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+                folderBrowserDialog.SelectedPath = System.IO.Path.GetDirectoryName(imageList[0].FullPatch);
                 if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
                 {
-                    int differenceCount = images.ImageList.Count - images.Rename(excelTable.DataTable, comboBoxNomeAtual.SelectedIndex, comboBoxNomeNovo.SelectedIndex, checkBoxSha1.Checked);
-                    if (differenceCount > 0)
+                    toolStripProgressBar1.Value = 0;
+                    toolStripProgressBar1.Maximum = imageList.Count;
+                    toolStripStatusLabel1.Text = "Processando...";
+                    foreach (Image img in imageList)
                     {
-                        DialogResult dialogResult = MessageBox.Show("Foram encontrados arquivos de imagens que não possuem referências na tabela.\n\n" + "Deseja continuar mesmo assim? (Os nomes originais serão mantidos)", "Atenção", MessageBoxButtons.YesNo);
-                        if (dialogResult != DialogResult.Yes)
-                            throw new System.ArgumentException("Processamento cancelado.");
+                        DataTable dataTable = excelTable.DataTable;
+                        DataRow[] dataRow = dataTable.Select(dataTable.Columns[comboBoxNomeAtual.SelectedIndex].ToString() + " = '" + img.Name + img.Extension + "'");
+                        if (dataRow.Length == 1)
+                            img.Rename(dataRow[0][comboBoxNomeNovo.SelectedIndex].ToString(), checkBoxSha1.Checked);
+                        else
+                        {
+                            DialogResult dialogResult = MessageBox.Show($"O arquivo {img.Name} não possui referênciaa na tabela.\n\nDeseja continuar mesmo assim? (Os nomes originais serão mantidos)", "Atenção", MessageBoxButtons.YesNo);
+                            if (dialogResult != DialogResult.Yes)
+                                throw new System.ArgumentException("Processamento cancelado.");
+                        }
+                        img.Save(folderBrowserDialog.SelectedPath);
+                        toolStripProgressBar1.Value++;
                     }
-
-                    if (images.Save(folderBrowserDialog.SelectedPath, checkBoxOptimizeAll.Checked))
-                        MessageBox.Show("Processamento concluído.");
+                    MessageBox.Show("Processamento concluído.", "Processamento");
+                    toolStripStatusLabel1.Text = "Pronto";
                 }
-                else                   
+                else
                     throw new System.ArgumentException("Erro ao selecionar a pasta de destino.");
             }
 
@@ -77,12 +95,12 @@ namespace RenomeadorDeArquivos
             catch (Exception ex)
             {
                 MessageBox.Show("Erro: " + ex, "Erro ao processar");
-            }     
+            }
         }
 
-        private  void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void btnSelecionarPlanilha_Click(object sender, EventArgs e)

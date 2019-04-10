@@ -1,5 +1,12 @@
 ﻿# Changelog
 
+## [0.3.0] - 10/04/2019
+### Modificado
+- Refatoração da classe Image.cs para incorporar a classe Images.cs.
+- Adicionado monitoramento de progresso dos processamentos.
+### Removido
+- Classe Images.cs.
+
 ## [0.2.1] - 17/09/2018
 ### Modificado
 - Renomeação: textBox1 -> textBoxImages.
