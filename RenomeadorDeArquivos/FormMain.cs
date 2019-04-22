@@ -5,12 +5,12 @@ using System.Windows.Forms;
 
 namespace RenomeadorDeArquivos
 {
-    public partial class Form1 : Form
+    public partial class FormMain : Form
     {
         private List<Image> imageList = new List<Image>();
         private ExcelTable excelTable = new ExcelTable();
 
-        public Form1()
+        public FormMain()
         {
             InitializeComponent();
             toolStripStatusLabel1.Text = "Pronto";
@@ -50,7 +50,7 @@ namespace RenomeadorDeArquivos
                 {
                     throw new System.ArgumentException("Nenhuma imagem foi selecionada.");
                 }
-                if (textBox2.Text == "")
+                if (excelTable.Patch == null)
                 {
                     throw new System.ArgumentException("Nenhuma planilha foi selecionada.");
                 }
@@ -98,7 +98,7 @@ namespace RenomeadorDeArquivos
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void FormMain_Load(object sender, EventArgs e)
         {
 
         }
@@ -115,10 +115,8 @@ namespace RenomeadorDeArquivos
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    textBox2.Text = openFileDialog.FileName.ToString();
                     excelTable.LoadFile(openFileDialog.FileName.ToString());
                     dataGridView1.DataSource = excelTable.DataTable;
-
                     comboBoxNomeAtual.Items.Clear();
                     comboBoxNomeAtual.Items.AddRange(excelTable.GetColumnsNames());
                     comboBoxNomeNovo.Items.Clear();

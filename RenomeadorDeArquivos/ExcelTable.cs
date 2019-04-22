@@ -8,15 +8,15 @@ namespace RenomeadorDeArquivos
 {
     internal class ExcelTable
     {
-        private string patch;
+        public string Patch { get; private set; }
         public DataTable DataTable { get; private set; }
         
         public void LoadFile (string patch)
         {
             if (!(Path.GetExtension(patch) == ".xls") && !(Path.GetExtension(patch) == ".xlsx"))
                 throw new System.ArgumentException("O arquivo selecionado inválido");
-            this.patch = patch;
-            this.DataTable = GetExcelTable();
+            Patch = patch;
+            DataTable = GetExcelTable();
         }
         
         private DataTable GetExcelTable()
@@ -24,15 +24,15 @@ namespace RenomeadorDeArquivos
             DataTable dataTable = new DataTable();
             try
             {
-                string Ext = Path.GetExtension(this.patch);
+                string Ext = Path.GetExtension(Patch);
                 string connectionString = "";
                 if (Ext == ".xls")
                 {
-                    connectionString = "Provider = Microsoft.Jet.OLEDB.4.0; Data Source = " + this.patch + "; Extended Properties = 'Excel 8.0;HDR=YES'";
+                    connectionString = "Provider = Microsoft.Jet.OLEDB.4.0; Data Source = " + Patch + "; Extended Properties = 'Excel 8.0;HDR=YES'";
                 }
                 else if (Ext == ".xlsx")
                 {
-                    connectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source =" + this.patch + "; Extended Properties = 'Excel 8.0;HDR=YES'";
+                    connectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source =" + Patch + "; Extended Properties = 'Excel 8.0;HDR=YES'";
                 }
                 OleDbConnection dbConnection = new OleDbConnection(connectionString);
                 OleDbCommand dbCommand = new OleDbCommand();

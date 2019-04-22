@@ -1,5 +1,11 @@
 ﻿# Changelog
 
+## [0.3.1] - 22/04/2019
+### Modificado
+- Renomeado a classe Form1.cs para FormMain.cs.
+### Removido
+- textBox2 do FormMain.cs (Form1.cs).
+
 ## [0.3.0] - 10/04/2019
 ### Modificado
 - Refatoração da classe Image.cs para incorporar a classe Images.cs.
