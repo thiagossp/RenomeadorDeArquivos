@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## [0.3.2] - 25/04/2019
+### Modificação
+- Refatoração e reoganização geral.
+
 ## [0.3.1] - 22/04/2019
 ### Modificado
 - Renomeado a classe Form1.cs para FormMain.cs.

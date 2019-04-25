@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using RenomeadorDeArquivos.Entities.Exceptions;
 using Encoder = System.Drawing.Imaging.Encoder;
 
 namespace RenomeadorDeArquivos
@@ -15,22 +12,22 @@ namespace RenomeadorDeArquivos
         public string FullPatch { get; private set; }
         public string Name { get; private set; }
         public string Extension { get; private set; }
-        public int Pages { get; private set; }
 
         public Image(string patch)
         {
             FullPatch = patch;
             Name = System.IO.Path.GetFileNameWithoutExtension(patch);
             Extension = System.IO.Path.GetExtension(patch);
-            Pages = PageCounter();
+            CheckMultiplesPages();
         }
 
-        private int PageCounter()
+        private void CheckMultiplesPages()
         {
-            using (System.Drawing.Image img = System.Drawing.Image.FromFile(this.FullPatch))
+            using (System.Drawing.Image img = System.Drawing.Image.FromFile(FullPatch))
             {
                 FrameDimension frameDimension = new FrameDimension(img.FrameDimensionsList[0]);
-                return img.GetFrameCount(frameDimension);
+                if (img.GetFrameCount(frameDimension) > 1)
+                    throw new ImageException($"Image files with multiples pages are not permiss (File: {Name})");
             }
         }
 
@@ -58,7 +55,7 @@ namespace RenomeadorDeArquivos
             {
                 DialogResult dialogResult = MessageBox.Show(ex.Message + "\n\nO arquivo não será processado.\n\nDeseja continuar com o processamento?", "Atenção", MessageBoxButtons.YesNo);
                 if (dialogResult != DialogResult.Yes)
-                    throw new System.ArgumentException("Processamento cancelado.");
+                    throw new ImageException("Processing Canceled.");
             }
         }
 
@@ -66,9 +63,6 @@ namespace RenomeadorDeArquivos
         {
             try
             {
-
-                if (Pages > 1)
-                    throw new System.ArgumentException("Não é permitido arquivos de imagens com multiplas páginas (" + Name + ")");
                 using (System.Drawing.Image img = System.Drawing.Image.FromFile(FullPatch))
                 {
                     double reductionFactor = 750 / Convert.ToDouble(img.Height);
@@ -85,9 +79,9 @@ namespace RenomeadorDeArquivos
                     }
                 }
             }
-            catch (System.IO.IOException ex)
+            catch (System.IO.IOException exception)
             {
-                MessageBox.Show(ex.Message, "Atenção");
+                throw new ImageException(exception.Message);
             }
         }
 

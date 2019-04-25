@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace RenomeadorDeArquivos
 {
     class Security
     {
-
         public string StringToSha1 (string normalString)
         {
             SHA1 sha1 = new SHA1CryptoServiceProvider();
